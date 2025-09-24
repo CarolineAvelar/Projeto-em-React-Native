@@ -9,79 +9,87 @@ import {
   Input,
   SubmitButton,
   List,
-  User,
-  Avatar,
-  Name,
-  Bio,
+  OwnerPoster,
+  PosterPerfil,
+  Info,
+  Title,
+  Author,
+  GenrePerfil,
   ProfileButton,
   ProfileButtonText,
 } from "../styles";
+
 export default class Main extends Component {
   state = {
-    newUser: "",
-    users: [],
+    newMovie: "",
+    movies: [],
     loading: false,
   };
 
   async componentDidMount() {
-    const users = await AsyncStorage.getItem("users");
-    if (users) {
-      this.setState({ users: JSON.parse(users) });
+    const movies = await AsyncStorage.getItem("movies");
+    if (movies) {
+      this.setState({ movies: JSON.parse(movies) });
     }
   }
 
   componentDidUpdate(_, prevState) {
-    const { users } = this.state;
-    if (prevState.users !== users) {
-      AsyncStorage.setItem("users", JSON.stringify(users));
+    const { movies } = this.state;
+    if (prevState.movies !== movies) {
+      AsyncStorage.setItem("movies", JSON.stringify(movies));
     }
   }
 
-  handleAddUser = async () => {
+  handleAddMovie = async () => {
     try {
-      const { users, newUser } = this.state;
+      const { movies, newMovie } = this.state;
       this.setState({ loading: true });
-      const response = await api.get(`/users/${newUser}`);
-      if (users.find((user) => user.login === response.data.login)) {
-        alert("Usuário já adicionado!");
+
+      const response = await api.get(`/?t=${newMovie}&apikey=98a00650`);
+
+      if (users.find((movies) => movies.login === response.data.login)) {
+        alert("Filme já adicionado!");
         this.setState({ loading: false });
-        return;
+        return;;
       }
+
       const data = {
-        name: response.data.name,
-        login: response.data.login,
-        bio: response.data.bio,
-        avatar: response.data.avatar_url,
+        Title: response.data.Title,
+        Year: response.data.Year,
+        Plot: response.data.Plot,
+        Poster: response.data.Poster,
+        imdbID: response.data.imdbID,
       };
-      console.log(data);
 
       this.setState({
-        users: [...users, data],
-        newUser: "",
+        movies: [...movies, data],
+        newMovie: "",
         loading: false,
       });
       Keyboard.dismiss();
+
     } catch (error) {
-      alert("Usuário não encontrado!");
+      alert("Erro na API");
       this.setState({ loading: false });
     }
   };
 
   render() {
-    const { users, newUser, loading } = this.state;
+    const { movies, newMovie, loading } = this.state;
+
     return (
       <Container>
         <Form>
           <Input
             autoCorrect={false}
             autoCapitalize="none"
-            placeholder="Adicionar usuário"
-            value={newUser}
-            onChangeText={(text) => this.setState({ newUser: text })}
+            placeholder="Adicionar filme"
+            value={newMovie}
+            onChangeText={(text) => this.setState({ newMovie: text })}
             returnKeyType="send"
-            onSubmitEditing={this.handleAddUser}
+            onSubmitEditing={this.handleAddMovie}
           />
-          <SubmitButton loading={loading} onPress={this.handleAddUser}>
+          <SubmitButton loading={loading} onPress={this.handleAddMovie}>
             {loading ? (
               <ActivityIndicator color="#fff" />
             ) : (
@@ -89,36 +97,37 @@ export default class Main extends Component {
             )}
           </SubmitButton>
         </Form>
+
         <List
           showsVerticalScrollIndicator={false}
-          data={users}
-          keyExtractor={(user) => user.login}
+          data={movies}
+          keyExtractor={(movie) => movie.imdbID}
           renderItem={({ item }) => (
-            <User>
-              <Avatar source={{ uri: item.avatar }} />
-              <Name>{item.name}</Name>
-              <Bio>{item.bio}</Bio>
+            <OwnerPoster>
+              <PosterPerfil source={{ uri: item.Poster }} />
+              <Info>
+                <Title>{item.Title}</Title>
+                <Author>{item.Year}</Author>
+                <GenrePerfil>{item.Plot}</GenrePerfil>
+              </Info>
               <ProfileButton
-                onPress={() => {
-                  this.props.navigation.navigate("user", { user: item });
-                }}
-              >
-                <ProfileButtonText>Ver perfil</ProfileButtonText>
-              </ProfileButton>
-              <ProfileButton
-                onPress={() => {
+                onPress={() =>
                   this.setState({
-                    users: users.filter((user) => user.login !== item.login),
-                  });
-                }}
+                    movies: movies.filter(
+                      (movie) => movie.imdbID !== item.imdbID
+                    ),
+                  })
+                }
                 style={{ backgroundColor: "#FFC0CB" }}
               >
                 <ProfileButtonText>Remover</ProfileButtonText>
               </ProfileButton>
-            </User>
+            </OwnerPoster>
           )}
         />
       </Container>
     );
   }
 }
+
+

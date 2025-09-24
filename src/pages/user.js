@@ -3,12 +3,11 @@ import api from "../services/api";
 import {
   Container,
   Header,
-  AvatarPerfil,
-  NamePerfil,
-  BioPerfil,
+  PosterPerfil,
+  TitlePerfil,
+  GenrePerfil,
+  OwnerPoster,
   Stars,
-  Starred,
-  OwnerAvatar,
   Info,
   Title,
   Author,
@@ -16,28 +15,28 @@ import {
 
 export default class User extends Component {
   state = {
-    stars: [],
+    movies: [],
   };
 
   async componentDidMount() {
     const { route } = this.props;
     const { user } = route.params;
 
-    const response = await api.get(`/users/${user.login}/starred`);
-    this.setState({ stars: response.data });
+    const response = await api.get(`/?s=${search}&apikey=98a00650`);
+    this.setState({ movies: response.data });
   }
 
   render() {
     const { route } = this.props;
     const { user } = route.params;
-    const { stars } = this.state;
+    const { movies } = this.state;
 
     return (
       <Container>
         <Header>
-          <AvatarPerfil source={{ uri: user.avatar }} />
-          <NamePerfil>{user.name}</NamePerfil>
-          <BioPerfil>{user.bio}</BioPerfil>
+          <PosterPerfil source={{ uri: user.avatar }} />
+          <TitlePerfil>{user.title}</TitlePerfil>
+          <GenrePerfil>{user.genre}</GenrePerfil>
         </Header>
 
         <Stars
