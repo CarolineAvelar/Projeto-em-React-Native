@@ -4,7 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import Main from "./pages/main";
 import Login from "./pages/login";
-import User from "./pages/user";
+import Movies from "./pages/user";
 import Cadastro from "./pages/cadastro"
 
 const Stack = createStackNavigator();
@@ -32,7 +32,7 @@ export default function Routes() {
           name="main"
           component={Main}
           options={{
-            title: "GitHub VIEWER",
+            title: "FILMES VARIADOS",
             headerTitleAlign: "center",
             headerStyle: {
               backgroundColor: "#3498DB",
@@ -44,10 +44,10 @@ export default function Routes() {
           }}
         />
         <Stack.Screen
-          name="user"
-          component={User}
+          name="movies"
+          component={Movies}
           options={{
-            title: "Perfil do Usuário",
+            title: "Filmes",
             headerTitleAlign: "center",
             headerStyle: {
               backgroundColor: "#3498DB",

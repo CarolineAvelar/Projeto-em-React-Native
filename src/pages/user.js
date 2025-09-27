@@ -6,11 +6,9 @@ import {
   PosterPerfil,
   TitlePerfil,
   GenrePerfil,
-  OwnerPoster,
-  Stars,
+  Plot,
   Info,
   Title,
-  Author,
 } from "../styles.js";
 
 export default class User extends Component {
@@ -47,7 +45,6 @@ export default class User extends Component {
               <OwnerAvatar source={{ uri: item.owner.avatar_url }} />
               <Info>
                 <Title>{item.name}</Title>
-                <Author>{item.owner.login}</Author>
               </Info>
             </Starred>
           )}

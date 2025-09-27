@@ -10,18 +10,26 @@ import {
 
 export default class Cadastro extends Component {
   state = {
+    nome: "",
+    telefone: "",
+    cpf: "",
     email: "",
-    password: "",
+    curso: "",
+    password: ""
   };
 
   handleCadastro = async () => {
-    const { email, password } = this.state;
-    if (!email || !password) {
+    const { nome, telefone, cpf, email, curso, password } = this.state;
+    if (!nome || !telefone || !cpf || !email || !curso || !password) {
       alert("Preencha todos os campos!");
       return;
     }
     const user = {
+      nome, 
+      telefone,
+      cpf,
       email,
+      curso,
       password,
     };
 
@@ -34,10 +42,41 @@ export default class Cadastro extends Component {
       <View style={styles.container}>
         <TextInput
           style={styles.input}
+          placeholder="Nome"
+          value={this.state.nome}
+          onChangeText={(nome) => this.setState({ nome })}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Telefone"
+          value={this.state.telefone}
+          onChangeText={(telefone) => this.setState({ telefone })}
+          keyboardType="numeric"
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="CPF"
+          value={this.state.cpf}
+          onChangeText={(cpf) => this.setState({ cpf })}
+          keyboardType="numeric"
+        />
+
+        <TextInput
+          style={styles.input}
           placeholder="E-mail"
           value={this.state.email}
           onChangeText={(email) => this.setState({ email })}
         />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Curso"
+          value={this.state.curso}
+          onChangeText={(curso) => this.setState({ curso })}
+        />
+
         <TextInput
           style={styles.input}
           placeholder="Senha"
@@ -45,6 +84,7 @@ export default class Cadastro extends Component {
           secureTextEntry={true}
           onChangeText={(password) => this.setState({ password })}
         />
+
         <TouchableOpacity style={styles.button} onPress={this.handleCadastro}>
           <Text style={styles.buttonText}>Cadastrar</Text>
         </TouchableOpacity>

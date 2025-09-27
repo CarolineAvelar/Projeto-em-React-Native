@@ -41,19 +41,9 @@ export const List = styled.FlatList.attrs({
   margin-top: 20px;
 `;
 
-export const User = styled.View`
-  align-items: center;
-  margin: 0 20px 30px;
-`;
-
-export const Avatar = styled.Image`
-  width: 64px;
-  height: 64px;
-  border-radius: 32px;
-  background: #eee;
-`;
-
-export const Name = styled.Text`
+export const TitleMain = styled.Text.attrs({
+  numberOfLines: 1,
+})`
   font-size: 14px;
   color: #333;
   font-weight: bold;
@@ -61,7 +51,30 @@ export const Name = styled.Text`
   text-align: center;
 `;
 
-export const Bio = styled.Text.attrs({
+export const OwnerPoster = styled.View`
+  background: #f0f0f0;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+  align-items: center;
+`;
+
+export const PosterPerfil = styled.Image`
+  width: 64px;
+  height: 64px;
+  border-radius: 32px;
+  background: #eee;
+`;
+
+export const GenrePerfil = styled.Text`
+  font-size: 14px;
+  color: #999;
+  font-weight: bold;
+  margin-top: 4px;
+  text-align: center;
+`;
+
+export const Plot = styled.Text.attrs({
   numberOfLines: 2,
 })`
   font-size: 13px;
@@ -140,7 +153,7 @@ export const OwnerAvatar = styled.Image`
   background: #eee;
 `;
 
-export const Info = styled.Text`
+export const Info = styled.View`
   margin-left: 10px;
   flex: 1;
 `;

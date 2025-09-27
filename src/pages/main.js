@@ -12,11 +12,10 @@ import {
   OwnerPoster,
   PosterPerfil,
   Info,
-  Title,
-  Author,
-  GenrePerfil,
+  TitleMain,
   ProfileButton,
   ProfileButtonText,
+  Plot,
 } from "../styles";
 
 export default class Main extends Component {
@@ -45,21 +44,21 @@ export default class Main extends Component {
       const { movies, newMovie } = this.state;
       this.setState({ loading: true });
 
-      const response = await api.get(`/?t=${newMovie}&apikey=98a00650`);
+    const response = await api.get(`/?t=${encodeURIComponent(newMovie)}`);
 
-      if (users.find((movies) => movies.login === response.data.login)) {
+      if (movies.find((movies) => movies.imdbID === response.data.imdbID)) {
         alert("Filme já adicionado!");
         this.setState({ loading: false });
-        return;;
+        return;
       }
 
       const data = {
         Title: response.data.Title,
-        Year: response.data.Year,
         Plot: response.data.Plot,
         Poster: response.data.Poster,
         imdbID: response.data.imdbID,
       };
+      console.log (data);
 
       this.setState({
         movies: [...movies, data],
@@ -69,7 +68,7 @@ export default class Main extends Component {
       Keyboard.dismiss();
 
     } catch (error) {
-      alert("Erro na API");
+      alert("Filme não encontrado");
       this.setState({ loading: false });
     }
   };
@@ -106,28 +105,30 @@ export default class Main extends Component {
             <OwnerPoster>
               <PosterPerfil source={{ uri: item.Poster }} />
               <Info>
-                <Title>{item.Title}</Title>
-                <Author>{item.Year}</Author>
-                <GenrePerfil>{item.Plot}</GenrePerfil>
+                <TitleMain>{item.Title}</TitleMain>
+                <Plot>{item.Plot}</Plot>
               </Info>
               <ProfileButton
-                onPress={() =>
+                onPress={() => {
+                  this.props.navigation.navigate("movies", { movie: item });
+                }}
+              >
+              <ProfileButtonText>Ver mais detalhes do filme</ProfileButtonText>
+              </ProfileButton>
+              <ProfileButton
+                onPress={() => {
                   this.setState({
-                    movies: movies.filter(
-                      (movie) => movie.imdbID !== item.imdbID
-                    ),
-                  })
-                }
+                    movies: movies.filter((movies) => movies.imdbID !== item.imdbID),
+                  });
+                }}
                 style={{ backgroundColor: "#FFC0CB" }}
               >
                 <ProfileButtonText>Remover</ProfileButtonText>
               </ProfileButton>
-            </OwnerPoster>
+              </OwnerPoster>
           )}
         />
       </Container>
     );
   }
-}
-
-
+  }
