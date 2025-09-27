@@ -74,7 +74,7 @@ export const GenrePerfil = styled.Text`
   text-align: center;
 `;
 
-export const Plot = styled.Text.attrs({
+export const Released = styled.Text.attrs({
   numberOfLines: 2,
 })`
   font-size: 13px;

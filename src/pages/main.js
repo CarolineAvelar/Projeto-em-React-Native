@@ -13,9 +13,9 @@ import {
   PosterPerfil,
   Info,
   TitleMain,
+  Released,
   ProfileButton,
   ProfileButtonText,
-  Plot,
 } from "../styles";
 
 export default class Main extends Component {
@@ -57,6 +57,7 @@ export default class Main extends Component {
         Plot: response.data.Plot,
         Poster: response.data.Poster,
         imdbID: response.data.imdbID,
+        Released: response.data.Released
       };
       console.log (data);
 
@@ -106,14 +107,15 @@ export default class Main extends Component {
               <PosterPerfil source={{ uri: item.Poster }} />
               <Info>
                 <TitleMain>{item.Title}</TitleMain>
-                <Plot>{item.Plot}</Plot>
+                <Released>{item.Released}</Released>
+
               </Info>
               <ProfileButton
                 onPress={() => {
                   this.props.navigation.navigate("movies", { movie: item });
                 }}
               >
-              <ProfileButtonText>Ver mais detalhes do filme</ProfileButtonText>
+              <ProfileButtonText>Ver mais detalhes sobre o filme</ProfileButtonText>
               </ProfileButton>
               <ProfileButton
                 onPress={() => {
@@ -121,7 +123,7 @@ export default class Main extends Component {
                     movies: movies.filter((movies) => movies.imdbID !== item.imdbID),
                   });
                 }}
-                style={{ backgroundColor: "#FFC0CB" }}
+                style={{ backgroundColor: "#cf0b2bff" }}
               >
                 <ProfileButtonText>Remover</ProfileButtonText>
               </ProfileButton>
