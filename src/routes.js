@@ -32,7 +32,7 @@ export default function Routes() {
           name="main"
           component={Main}
           options={{
-            title: "FILMES VARIADOS",
+            title: "CARDS",
             headerTitleAlign: "center",
             headerStyle: {
               backgroundColor: "#387299ff",

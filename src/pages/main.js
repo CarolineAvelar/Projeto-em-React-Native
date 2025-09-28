@@ -16,6 +16,7 @@ import {
   Released,
   ProfileButton,
   ProfileButtonText,
+  Runtime,
 } from "../styles";
 
 export default class Main extends Component {
@@ -57,7 +58,9 @@ export default class Main extends Component {
         Plot: response.data.Plot,
         Poster: response.data.Poster,
         imdbID: response.data.imdbID,
-        Released: response.data.Released
+        Genre: response.data.Genre,
+        Runtime: response.data.Runtime,
+        Released: response.data.Released,
       };
       console.log (data);
 
@@ -107,7 +110,7 @@ export default class Main extends Component {
               <PosterPerfil source={{ uri: item.Poster }} />
               <Info>
                 <TitleMain>{item.Title}</TitleMain>
-                <Released>{item.Released}</Released>
+                <Released>Data do Lançamento: {item.Released}</Released>
 
               </Info>
               <ProfileButton

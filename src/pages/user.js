@@ -3,12 +3,14 @@ import api from "../services/api";
 import {
   Container,
   Header,
-  PosterPerfil,
-  TitlePerfil,
-  GenrePerfil,
+  Poster,
+  Title,
+  Genre,
+  Runtime,
   Plot,
   Info,
-  Title,
+  ListUser,
+  Owner,
 } from "../styles.js";
 
 export default class User extends Component {
@@ -18,7 +20,7 @@ export default class User extends Component {
 
   async componentDidMount() {
     const { route } = this.props;
-    const { user } = route.params;
+    const { movie } = route.params;
 
     const response = await api.get(`/?s=${search}&apikey=98a00650`);
     this.setState({ movies: response.data });
@@ -26,30 +28,35 @@ export default class User extends Component {
 
   render() {
     const { route } = this.props;
-    const { user } = route.params;
+    const { movie } = route.params;
     const { movies } = this.state;
 
     return (
       <Container>
         <Header>
-          <PosterPerfil source={{ uri: user.avatar }} />
-          <TitlePerfil>{user.title}</TitlePerfil>
-          <GenrePerfil>{user.genre}</GenrePerfil>
+          <Poster source={{ uri: movie.Poster }} />
+          <Title>{movie.Title}</Title>
+          <Genre> Gênero: {movie.Genre}</Genre>
+          <Runtime>Tempo de Duração: {movie.Runtime}</Runtime>
+          <Plot>Descrição: {movie.Plot}</Plot>
         </Header>
 
-        <Stars
-          data={stars}
-          keyExtractor={(star) => String(star.id)}
+        <ListUser
+          data={movies}
+          keyExtractor={(item) => item.imdbID}
           renderItem={({ item }) => (
-            <Starred>
-              <OwnerAvatar source={{ uri: item.owner.avatar_url }} />
+            <Owner>
+              <Poster source={{ uri: item.Poster }} />
               <Info>
-                <Title>{item.name}</Title>
+                <Title>{item.Title}</Title>
+                <Genre>{item.Genre}</Genre>
+                <Runtime>{item.Runtime}</Runtime>
+                <Plot>{item.Plot}</Plot>
               </Info>
-            </Starred>
+            </Owner>
           )}
         />
-      </Container>  
+      </Container>
     );
   }
 }
